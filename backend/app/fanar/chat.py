@@ -1,7 +1,9 @@
-"""Thin chat wrappers over the Fanar chat endpoint, incl. JSON-structured output.
+"""Fanar chat: reasoning over the deterministic error map to diagnose patterns and
+plan exercises. Native function-calling is unavailable to our key (Phase 0 finding),
+so structured data is obtained via strict-JSON prompts parsed here.
 
-Native function calling is unavailable to our key (Phase 0 finding), so the planner
-and verifier get structured data via strict-JSON prompts parsed here.
+IMPORTANT (HARD RULE 3): the LLM never computes the alignment/miscue map. It only
+reasons ON TOP of the deterministic engine's output.
 """
 from __future__ import annotations
 
@@ -10,12 +12,12 @@ import re
 from typing import Tuple
 
 from app.fanar.client import openai_client
-from app.fanar.models import CHAT
+from app.fanar.models import CHAT_27B
 
 _JSON_OBJ = re.compile(r"\{.*\}", re.DOTALL)
 
 
-def chat(messages: list, model: str = CHAT, max_tokens: int = 800,
+def chat(messages: list, model: str = CHAT_27B, max_tokens: int = 800,
          temperature: float = 0.0) -> str:
     """Single chat completion -> assistant text."""
     resp = openai_client().chat.completions.create(
@@ -24,7 +26,8 @@ def chat(messages: list, model: str = CHAT, max_tokens: int = 800,
     return resp.choices[0].message.content or ""
 
 
-def complete_json(system: str, user: str, model: str, max_tokens: int = 400) -> Tuple[dict, str]:
+def complete_json(system: str, user: str, model: str = CHAT_27B,
+                  max_tokens: int = 600) -> Tuple[dict, str]:
     """Ask for a JSON object and parse the first {...} block. Returns (parsed, raw_text)."""
     raw = chat(
         [{"role": "system", "content": system}, {"role": "user", "content": user}],

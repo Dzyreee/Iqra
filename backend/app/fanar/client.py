@@ -1,8 +1,8 @@
 """Shared clients pointed at Fanar.
 
-The Fanar API is OpenAI-compatible (base_url + Bearer token), so we use the
-`openai` SDK for chat-shaped calls and a raw `httpx` client for endpoints that
-are not OpenAI-shaped (discovered in Phase 0).
+Fanar is mostly OpenAI-compatible (base_url + Bearer token), so we use the `openai`
+SDK for chat/audio/image calls and a raw `httpx` client for endpoints that are NOT
+OpenAI-shaped (e.g. GET /models uses key "models" not "data"; /translations is bespoke).
 """
 from __future__ import annotations
 

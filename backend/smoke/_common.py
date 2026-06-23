@@ -1,4 +1,4 @@
-"""Shared helpers for smoke scripts: path setup, output dir, pretty result logging."""
+"""Shared helpers for smoke scripts: path setup, output dir, pretty logging."""
 import json
 import sys
 from pathlib import Path

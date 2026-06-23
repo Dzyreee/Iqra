@@ -1,0 +1,10 @@
+# Naghami backend dependencies
+openai>=1.40.0          # OpenAI-compatible SDK, pointed at the Fanar base_url
+httpx>=0.27.0           # for endpoints that are NOT OpenAI-shaped (/models, /audio/voices)
+python-dotenv>=1.0.1    # load FANAR_API_KEY from backend/.env at runtime
+pytest>=8.0.0           # deterministic alignment/miscue engine unit tests (Phase 1)
+
+# Backend API + uploads (Phase 2+)
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9 # audio file uploads for Aura STT
