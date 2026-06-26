@@ -1,13 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useApp } from "@/components/AppProvider";
 import { MicButton } from "@/components/MicButton";
 import { PressButton } from "@/components/ui/PressButton";
+import { LevelBadge } from "@/components/ui/LevelBadge";
 import { useLang } from "@/components/LanguageProvider";
-import { BookIcon, PlayIcon, XIcon } from "@/components/icons";
-import type { AlignedWord } from "@/lib/types";
+import { useSpeak } from "@/components/useSpeak";
+import { BookIcon, PlayIcon, VolumeIcon, XIcon } from "@/components/icons";
+
+// A tap on a word plays ONLY that word (Aura TTS) as a hint — never the whole sentence,
+// so the child still reads it themselves. Capped per lesson to keep it a hint.
+const HINT_LIMIT = 2;
 
 // Illustration chosen by Fanar from the static library. Fills its grid cell (generous on
 // desktop). Friendly placeholder while the pick is in flight or the file is missing.
@@ -31,43 +36,74 @@ function LessonImage({ src, alt }: { src: string | null; alt: string }) {
   );
 }
 
-function Word({ w }: { w: AlignedWord }) {
-  const struggled = w.status === "substitution" || w.status === "omission";
-  return (
-    <span
-      className={
-        struggled
-          ? "rounded-lg bg-accent/15 px-1.5 text-accent-dark underline decoration-accent decoration-wavy decoration-2 underline-offset-4"
-          : "text-ink"
-      }
-    >
-      {w.target}
-    </span>
-  );
-}
-
 export function SessionScreen() {
   const { t } = useLang();
-  const { activeLesson, assess, busyAssess, note, sessionImage, runAudio, runDemo, toResults, go } =
-    useApp();
+  const {
+    activeLesson,
+    lessons,
+    game,
+    assess,
+    busyAssess,
+    note,
+    sessionImage,
+    runAudio,
+    runDemo,
+    toResults,
+    go,
+  } = useApp();
+  const { speak, pending } = useSpeak();
+
+  const [hintsUsed, setHintsUsed] = useState(0);
+  // Hints reset every time a new node opens.
+  useEffect(() => setHintsUsed(0), [activeLesson?.id]);
+
+  const aligned = assess?.error_map.words ?? null;
+
+  // One tappable word list, whether we're pre-reading (raw passage) or post-assess
+  // (aligned words, struggled ones flagged).
+  const words = useMemo(() => {
+    if (aligned) {
+      return aligned.map((w) => ({
+        key: String(w.index),
+        text: w.target,
+        struggled: w.status === "substitution" || w.status === "omission",
+      }));
+    }
+    if (!activeLesson) return [];
+    return activeLesson.passage
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((text, i) => ({ key: `p${i}`, text, struggled: false }));
+  }, [aligned, activeLesson]);
+
   if (!activeLesson) return null;
 
-  const words = assess?.error_map.words ?? null;
+  const hintsLeft = HINT_LIMIT - hintsUsed;
+  const canHint = hintsLeft > 0;
+  const level = Math.min(game.completed.length + 1, lessons.length);
+
+  const onWord = (text: string, key: string) => {
+    if (!canHint) return;
+    setHintsUsed((n) => n + 1);
+    void speak(text, key);
+  };
 
   return (
     <div className="mx-auto w-full max-w-md px-5 pb-10 pt-6 md:max-w-3xl">
       {/* header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <button
           type="button"
           onClick={() => go("path")}
           aria-label={t("back_to_path")}
-          className="grid h-10 w-10 cursor-pointer place-items-center rounded-2xl border-2 border-sky-100 bg-white text-slate-400 transition-colors hover:text-brand"
+          className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center rounded-2xl border-2 border-sky-100 bg-white text-slate-400 transition-colors hover:text-brand"
         >
           <XIcon className="h-5 w-5" />
         </button>
-        <span className="font-display text-xl font-extrabold text-ink">{activeLesson.title}</span>
-        <span className="h-10 w-10" />
+        <span className="truncate font-display text-xl font-extrabold text-ink">
+          {activeLesson.title}
+        </span>
+        <LevelBadge level={level} completed={game.completed.length} total={lessons.length} />
       </div>
 
       <p className="mt-5 text-center text-base font-bold text-slate-500">{t("read_aloud")}</p>
@@ -75,16 +111,48 @@ export function SessionScreen() {
       {/* reading card — image beside the passage (stacks on mobile) */}
       <motion.div layout className="card mt-3 overflow-hidden md:grid md:grid-cols-2">
         <LessonImage key={activeLesson.id} src={sessionImage} alt={activeLesson.title} />
-        <div className="flex items-center justify-center p-6 md:p-8">
-          <p dir="rtl" className="text-center font-display text-3xl leading-[2.7rem] text-ink md:text-4xl md:leading-[3.4rem]">
-            {words
-              ? words.map((w, i) => (
-                  <span key={w.index}>
-                    <Word w={w} />
-                    {i < words.length - 1 ? " " : ""}
-                  </span>
-                ))
-              : activeLesson.passage}
+        <div className="flex flex-col items-center justify-center p-6 md:p-8">
+          <div
+            dir="rtl"
+            className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-center font-display text-3xl leading-[2.7rem] md:text-4xl md:leading-[3.4rem]"
+          >
+            {words.map((w) => {
+              const loading = pending === w.key;
+              return (
+                <motion.button
+                  key={w.key}
+                  type="button"
+                  onClick={() => onWord(w.text, w.key)}
+                  disabled={!canHint}
+                  whileTap={canHint ? { scale: 0.88 } : undefined}
+                  aria-label={canHint ? `${t("tap_hint_help")}: ${w.text}` : w.text}
+                  className={[
+                    "rounded-xl px-1.5 transition-colors",
+                    w.struggled
+                      ? "bg-accent/15 text-accent-dark underline decoration-accent decoration-wavy decoration-2 underline-offset-4"
+                      : canHint
+                        ? "text-ink"
+                        : "text-slate-400",
+                    canHint ? "cursor-pointer hover:bg-brand/10" : "cursor-default",
+                    loading ? "bg-brand/15" : "",
+                  ].join(" ")}
+                >
+                  {w.text}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* hint meter — encourages a tap, then a friendly stop */}
+          <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-slate-500">
+            {canHint ? (
+              <>
+                <VolumeIcon className="h-4 w-4 text-brand" />
+                {t("tap_hint_help")} · {hintsLeft} {t("hints_left")}
+              </>
+            ) : (
+              t("hints_used")
+            )}
           </p>
         </div>
       </motion.div>

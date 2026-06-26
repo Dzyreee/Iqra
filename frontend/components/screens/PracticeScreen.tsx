@@ -5,11 +5,13 @@ import { useApp } from "@/components/AppProvider";
 import { Mascot } from "@/components/Mascot";
 import { PressButton } from "@/components/ui/PressButton";
 import { useLang } from "@/components/LanguageProvider";
-import { MusicIcon, SpinnerIcon, XIcon } from "@/components/icons";
+import { useSpeak } from "@/components/useSpeak";
+import { MusicIcon, SpinnerIcon, VolumeIcon, XIcon } from "@/components/icons";
 
 export function PracticeScreen() {
   const { t } = useLang();
   const { adapt, busyAdapt, note, poemImage, finishLesson, go } = useApp();
+  const { speak, pending } = useSpeak();
 
   const loading = busyAdapt || !adapt;
   const sounds = adapt?.plan.target_sounds ?? [];
@@ -93,6 +95,29 @@ export function PracticeScreen() {
                 >
                   {poem}
                 </p>
+
+                {/* Reward: full-verse playback is fine here (this is NOT the passage
+                    the child must read themselves). */}
+                <motion.button
+                  type="button"
+                  onClick={() => speak(poem, "verse")}
+                  disabled={pending === "verse"}
+                  whileTap={{ scale: 0.95 }}
+                  className="mt-5 inline-flex cursor-pointer items-center gap-2 rounded-full border-b-4 border-accent-dark bg-accent px-5 py-2.5 font-display text-base font-extrabold text-white shadow-soft transition-[filter] hover:brightness-105 disabled:cursor-default disabled:opacity-70"
+                >
+                  {pending === "verse" ? (
+                    <>
+                      <SpinnerIcon className="h-5 w-5" />
+                      {t("playing")}
+                    </>
+                  ) : (
+                    <>
+                      <VolumeIcon className="h-5 w-5" />
+                      {t("play_verse")}
+                    </>
+                  )}
+                </motion.button>
+
                 <p className="mt-4 text-[0.7rem] font-bold uppercase tracking-wide text-accent-dark/70">
                   {t("verse_label")}
                 </p>

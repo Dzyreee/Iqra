@@ -85,6 +85,16 @@ export function pickIllustration(
   }).then(asJson<{ id: string }>);
 }
 
+/** Aura TTS for arbitrary text → base64 MP3. Used for the Diwan full-verse
+ *  playback (reward) and the per-word reading hints (lazy, on tap). */
+export function speak(text: string): Promise<{ b64: string; mime: string }> {
+  return fetch(`${API_BASE}/speak`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  }).then(asJson<{ b64: string; mime: string }>);
+}
+
 export function getProgress(childId = DEMO_CHILD_ID): Promise<Progress> {
   return fetch(`${API_BASE}/progress?child_id=${encodeURIComponent(childId)}`, {
     cache: "no-store",

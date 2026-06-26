@@ -1,7 +1,18 @@
 # Naghami Phase 5 Redesign — Design Spec
 
 Date: 2026-06-26
-Status: Built (v1 shipped); **Revision 2 (4 refinements) — pending approval**
+Status: Built (v1 shipped); **Revision 2 (4 refinements) — implemented 2026-06-26**
+
+### Revision 2 — implementation status
+- **R1 Responsive** — ✅ implemented (real breakpoints on every screen; multi-column on md/lg).
+  Build + runtime render confirmed; visual screenshot pass @375/768/1280 still recommended.
+- **R2 TTS** — ✅ implemented. Backend `POST /speak`; frontend `api.speak` + `useSpeak` hook.
+  Practice = full-verse play button (reward). Session = per-word tappable hints, `HINT_LIMIT = 2`,
+  greys out + "you've used your hints" after the limit, resets per node.
+- **R3 Image+text one card, side-by-side** — ✅ implemented (Session + Practice).
+- **R4 Polish + level + micro + confetti** — ✅ implemented. New `LevelBadge` (level + filled bar)
+  on Path and Session, separate from the streak. Confetti fires on good Results (≥70%); micro-
+  interactions on buttons, path nodes, and tappable words.
 
 ## Goal
 

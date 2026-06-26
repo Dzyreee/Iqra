@@ -130,6 +130,19 @@ const STRINGS = {
   finish_lesson: { ar: "تدرّبت! أنهِ الدرس", en: "Done practicing!" },
   judge_view: { ar: "كيف يعمل", en: "How it works" },
   judge_sub: { ar: "مسار الوكيل الذكي — للقُضاة", en: "Live agent trace — for judges" },
+
+  // Level / difficulty indicator (separate from the streak)
+  level_label: { ar: "المستوى", en: "Level" },
+
+  // TTS — Diwan full playback (reward) vs. per-word reading hints
+  play_verse: { ar: "استمع للقصيدة", en: "Play the verse" },
+  playing: { ar: "يُشغّل…", en: "Playing…" },
+  tap_hint_help: { ar: "اضغط على كلمة لسماعها", en: "Tap a word to hear it" },
+  hints_left: { ar: "تلميح متبقٍ", en: "hints left" },
+  hints_used: {
+    ar: "استخدمت كل تلميحاتك! اقرأها بنفسك الآن.",
+    en: "You've used your hints! Now read it yourself.",
+  },
 } as const;
 
 export type StringKey = keyof typeof STRINGS;

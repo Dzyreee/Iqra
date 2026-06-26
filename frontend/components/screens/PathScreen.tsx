@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 import { useApp } from "@/components/AppProvider";
 import { Mascot } from "@/components/Mascot";
+import { LevelBadge } from "@/components/ui/LevelBadge";
 import { useLang } from "@/components/LanguageProvider";
 import {
   FlameIcon,
@@ -18,6 +19,9 @@ const offsetFor = (i: number) => Math.round(Math.sin(i * 0.9) * 58);
 export function PathScreen() {
   const { t, lang, toggle } = useLang();
   const { lessons, nodeState, openNode, game, go } = useApp();
+
+  // Current level = current node index; bar fills with completed / total nodes.
+  const level = Math.min(game.completed.length + 1, lessons.length);
 
   const progressBtn = (
     <button
@@ -73,6 +77,7 @@ export function PathScreen() {
               <p className="text-base text-slate-500">{t("lets_read")}</p>
             </div>
           </div>
+          <LevelBadge level={level} completed={game.completed.length} total={lessons.length} />
           <div className="hidden lg:block">{progressBtn}</div>
         </aside>
 
