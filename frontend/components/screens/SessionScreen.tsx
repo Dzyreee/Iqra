@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useApp } from "@/components/AppProvider";
+import { Jad } from "@/components/Jad";
 import { MicButton } from "@/components/MicButton";
 import { PressButton } from "@/components/ui/PressButton";
 import { LevelBadge } from "@/components/ui/LevelBadge";
@@ -106,7 +107,12 @@ export function SessionScreen() {
         <LevelBadge level={level} completed={game.completed.length} total={lessons.length} />
       </div>
 
-      <p className="mt-5 text-center text-base font-bold text-slate-500">{t("read_aloud")}</p>
+      <div className="mt-5 flex items-center justify-center gap-2">
+        <Jad pose={busyAssess ? "jad-thinking" : "jad-pointing-at-book"} size={52} />
+        <p className="text-center text-base font-bold text-slate-500">
+          {busyAssess ? t("mic_analyzing") : t("read_aloud")}
+        </p>
+      </div>
 
       {/* reading card — image beside the passage (stacks on mobile) */}
       <motion.div layout className="card mt-3 overflow-hidden md:grid md:grid-cols-2">

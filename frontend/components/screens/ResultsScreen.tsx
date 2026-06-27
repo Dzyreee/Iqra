@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { useApp } from "@/components/AppProvider";
-import { Mascot } from "@/components/Mascot";
+import { Jad } from "@/components/Jad";
 import { PressButton } from "@/components/ui/PressButton";
 import { useLang } from "@/components/LanguageProvider";
 import { GaugeIcon, BoltIcon } from "@/components/icons";
@@ -36,7 +36,7 @@ export function ResultsScreen() {
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center px-5 pb-8 pt-10 text-center md:max-w-xl lg:max-w-2xl">
-      <Mascot size={132} mood={good ? "cheer" : "happy"} />
+      <Jad pose={good ? "jad-clapping" : "jad-reading-sad"} size={150} animate={good ? "pop" : "bob"} />
 
       <motion.h1
         initial={{ scale: 0.8, opacity: 0 }}

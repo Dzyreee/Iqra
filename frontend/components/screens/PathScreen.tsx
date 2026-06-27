@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 
 import { useApp } from "@/components/AppProvider";
-import { Mascot } from "@/components/Mascot";
+import { Jad } from "@/components/Jad";
 import { LevelBadge } from "@/components/ui/LevelBadge";
 import { useLang } from "@/components/LanguageProvider";
 import {
@@ -36,6 +36,12 @@ export function PathScreen() {
 
   return (
     <div className="mx-auto w-full max-w-md px-5 pb-10 pt-6 md:max-w-2xl lg:max-w-5xl xl:max-w-6xl">
+      {/* Brand */}
+      <div className="mb-4 flex justify-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/jad-images/logo.png" alt="IQRA — اقرأ" width={56} height={56} className="h-14 w-14 object-contain" />
+      </div>
+
       {/* Top stats */}
       <div className="flex items-center justify-between">
         <span className="chip bg-accent/15 text-base text-accent-dark">
@@ -71,7 +77,7 @@ export function PathScreen() {
         {/* Left rail (stacks above the trail on mobile) */}
         <aside className="mt-4 space-y-4 lg:w-80 lg:shrink-0 lg:sticky lg:top-6 lg:self-start">
           <div className="flex items-end gap-3">
-            <Mascot size={88} mood="happy" />
+            <Jad pose="jad-waving" size={96} />
             <div className="relative mb-3 flex-1 rounded-[1.25rem] border-2 border-sky-100 bg-white px-4 py-3 shadow-soft">
               <p className="font-display text-xl font-extrabold text-ink">{t("greet")}</p>
               <p className="text-base text-slate-500">{t("lets_read")}</p>

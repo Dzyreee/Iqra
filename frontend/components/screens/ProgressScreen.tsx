@@ -1,6 +1,6 @@
 "use client";
 import { useApp } from "@/components/AppProvider";
-import { Mascot } from "@/components/Mascot";
+import { Jad } from "@/components/Jad";
 import { ProgressChart } from "@/components/ProgressChart";
 import { useLang } from "@/components/LanguageProvider";
 import { BookIcon, FlameIcon, StarIcon, XIcon } from "@/components/icons";
@@ -37,7 +37,7 @@ export function ProgressScreen() {
         {/* left: profile + tiles */}
         <div className="space-y-3">
           <div className="flex items-center gap-3 rounded-[1.5rem] border-2 border-sky-100 bg-white p-4 shadow-soft">
-            <Mascot size={64} mood="happy" />
+            <Jad pose="jad-holding-star" size={76} />
             <div>
               <p className="font-display text-2xl font-extrabold text-ink">{t("child_name")}</p>
               <p className="text-base font-bold text-slate-500">{t("child_age")}</p>

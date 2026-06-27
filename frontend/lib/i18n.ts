@@ -41,8 +41,8 @@ const STRINGS = {
     en: "Tap the mic to have the child read, or try “Run demo” to see the full loop.",
   },
   footer: {
-    ar: "نَغَمي أداة لدعم القراءة فقط. الأنماط المعروضة للممارسة، وليست تشخيصاً طبياً — راجِع أخصائياً إذا استمرت.",
-    en: "Naghami is a reading-support tool only. The patterns shown are for practice, not a medical diagnosis — consult a specialist if they persist.",
+    ar: "اقرأ أداة لدعم القراءة فقط. الأنماط المعروضة للممارسة، وليست تشخيصاً طبياً — راجِع أخصائياً إذا استمرت.",
+    en: "IQRA is a reading-support tool only. The patterns shown are for practice, not a medical diagnosis — consult a specialist if they persist.",
   },
 
   // Passage legend
