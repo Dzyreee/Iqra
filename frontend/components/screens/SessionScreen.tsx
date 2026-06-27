@@ -108,7 +108,7 @@ export function SessionScreen() {
       </div>
 
       <div className="mt-5 flex items-center justify-center gap-2">
-        <Jad pose={busyAssess ? "jad-thinking" : "jad-pointing-at-book"} size={52} />
+        <Jad pose={busyAssess ? "jad-thinking" : "jad-pointing-at-book"} size={84} />
         <p className="text-center text-base font-bold text-slate-500">
           {busyAssess ? t("mic_analyzing") : t("read_aloud")}
         </p>

@@ -44,6 +44,22 @@ export type JadPose =
 
 type Anim = "bob" | "pop" | "none";
 
+// Poses whose PNGs have a real transparent background (the 480×480 hi-res renders). These
+// can sit directly on any surface, so we render them WITHOUT the white sticker frame — Jad
+// reads as a character on the page, not an icon in a box. Every other pose is a 120×120
+// PNG with a baked-in solid white background (Jad wears a white thobe, so the white can't
+// be keyed out without eating his clothes); those keep the rounded white sticker so the
+// white looks intentional on tinted surfaces. Keep this in sync with the assets:
+//   sips -g hasAlpha public/jad-images/<pose>.png  (and check the corner pixels).
+const TRANSPARENT_POSES: ReadonlySet<JadPose> = new Set([
+  "jad-reading-sad",
+  "jad-running",
+  "jad-thinking",
+  "jad-trophy-finish-line",
+  "jad-waving",
+  "jad-wearing-headphones",
+]);
+
 export function Jad({
   pose,
   size = 120,
@@ -56,22 +72,29 @@ export function Jad({
   className?: string;
 }) {
   const anim = animate === "bob" ? "animate-bob" : animate === "pop" ? "animate-pop" : "";
-  // The source PNGs have a solid white background (and Jad wears a white thobe, so the bg
-  // can't be keyed out without eating his clothes). Presenting each pose as a soft rounded
-  // white "sticker" makes that white intentional on any surface, tinted or not.
+  const bare = TRANSPARENT_POSES.has(pose);
+  const img = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/jad-images/${pose}.png`}
+      alt=""
+      width={size}
+      height={size}
+      className="h-full w-full select-none object-contain"
+      draggable={false}
+    />
+  );
   return (
     <div className={`${anim} ${className}`} style={{ width: size, height: size }} aria-hidden="true">
-      <div className="h-full w-full overflow-hidden rounded-[26%] bg-white shadow-[0_4px_14px_rgba(26,43,76,0.10)]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/jad-images/${pose}.png`}
-          alt=""
-          width={size}
-          height={size}
-          className="h-full w-full select-none object-contain"
-          draggable={false}
-        />
-      </div>
+      {bare ? (
+        img
+      ) : (
+        // Soft rounded white "sticker" makes the PNG's baked-in white background look
+        // intentional on any surface, tinted or not.
+        <div className="h-full w-full overflow-hidden rounded-[26%] bg-white shadow-[0_4px_14px_rgba(26,43,76,0.10)]">
+          {img}
+        </div>
+      )}
     </div>
   );
 }

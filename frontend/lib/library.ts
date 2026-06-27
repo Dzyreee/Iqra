@@ -10,8 +10,8 @@ export interface LibraryImage {
 }
 
 export const LIBRARY: LibraryImage[] = [
-  { id: "school", src: "/library/school.png", description: "طفل يذهب إلى المدرسة حاملاً حقيبته" },
-  { id: "park", src: "/library/park.png", description: "أطفال يلعبون بالكرة في حديقة خضراء" },
+  { id: "school", src: "/library/school.png", description: "ولد يذهب إلى المدرسة حاملاً حقيبته" },
+  { id: "park", src: "/library/park.png", description: "بنت تلعب بالكرة في حديقة خضراء" },
   { id: "cat", src: "/library/cat.png", description: "قطة صغيرة تشرب الحليب في البيت" },
   { id: "bedtime", src: "/library/bedtime.png", description: "طفل يقرأ قصة في سريره قبل النوم ليلاً" },
   { id: "birds", src: "/library/birds.png", description: "طيور صغيرة تغرّد فوق أغصان الأشجار في سماء زرقاء" },

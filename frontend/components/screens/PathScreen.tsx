@@ -39,7 +39,7 @@ export function PathScreen() {
       {/* Brand */}
       <div className="mb-4 flex flex-col items-center gap-1">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/jad-images/logo.png" alt="IQRA اقرأ" width={56} height={56} className="h-14 w-14 object-contain" />
+        <img src="/jad-images/logo.png" alt="IQRA اقرأ" width={112} height={112} className="h-28 w-28 object-contain" />
         {offline && (
           <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-extrabold tracking-wide text-emerald-700">
             OFFLINE DEMO

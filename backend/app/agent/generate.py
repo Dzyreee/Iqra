@@ -11,6 +11,7 @@ from __future__ import annotations
 import base64
 from typing import Optional
 
+from app.agent.subject import with_subject
 from app.agent.trace import Trace
 from app.fanar.diwan import generate_verse
 from app.fanar.guard import check_content
@@ -56,6 +57,11 @@ def generate_exercise(
     if include_image:
         illo_prompt = plan.get("illustration_prompt") or (
             "A cheerful simple flat-style children's illustration, soft colors, no text, no letters.")
+        # Pin the subject's gender/number to the TEXT the child actually reads, so the art
+        # matches it (otherwise Oryx-IG free-picks a gender — e.g. a boy passage drawn as a
+        # girl). Prefer the practice passage; fall back to the generated verse.
+        subject_text = plan.get("practice_passage") or out["verse"] or ""
+        illo_prompt = with_subject(illo_prompt, subject_text)
         with trace.step("generate-image", model=ORYX_IG,
                         input={"prompt": illo_prompt},
                         summary="Oryx-IG illustrates the exercise") as st:

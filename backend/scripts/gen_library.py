@@ -25,23 +25,30 @@ from app.fanar.image import generate_image  # noqa: E402
 OUT_DIR = Path(__file__).resolve().parents[2] / "frontend" / "public" / "library"
 
 # id -> English scene prompt. ids must match frontend/lib/library.ts.
+#
+# Subjects are GENDER-EXPLICIT and chosen to match the lesson passages each image is
+# matched to at runtime (frontend/lib/lessons.ts + library.ts descriptions). A generic
+# "a child" lets Oryx-IG free-pick a gender, which is how the boy passage
+# «ذهب الولد إلى المدرسة» got illustrated as a girl. Keep the gender here in sync with the
+# passages: e.g. both school passages (L1 «الولد», L4 «أحمد») are boys → "a young boy".
 LIBRARY = {
-    "school": "a young child walking to school with a backpack",
-    "park": "children playing with a ball in a green park",
+    "school": "a young boy walking to school with a backpack",
+    "park": "a young girl playing with a ball in a green park",
     "cat": "a small cat drinking milk at home",
-    "bedtime": "a child reading a storybook in bed at night",
+    "bedtime": "a young child reading a storybook in bed at night",
     "birds": "small birds singing on tree branches in a blue sky",
-    "autumn": "children playing among falling golden autumn leaves",
-    "sea": "children swimming at a blue beach in summer",
+    "autumn": "young children playing among falling golden autumn leaves",
+    "sea": "young children swimming at a blue beach in summer",
     "family": "a happy family eating a meal together at a table",
     "sun": "a bright sun rising over green hills in the morning",
-    "rain": "a child holding an umbrella in the rain",
-    "garden": "a child watering colorful flowers in a garden",
-    "music": "a child singing happily with music notes floating around",
+    "rain": "a young child holding an umbrella in the rain",
+    "garden": "a young child watering colorful flowers in a garden",
+    "music": "a young child singing happily with music notes floating around",
 }
 
 PROMPT = (
     "Simple, friendly children's book illustration of: {scene}. "
+    "Draw exactly the subject described, keeping their gender and number as written. "
     "Flat soft colors, rounded shapes, cheerful, light sky-blue palette, "
     "white background, no text, no letters, no words."
 )

@@ -36,7 +36,7 @@ export function ResultsScreen() {
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center px-5 pb-8 pt-10 text-center md:max-w-xl lg:max-w-2xl">
-      <Jad pose={good ? "jad-clapping" : "jad-reading-sad"} size={150} animate={good ? "pop" : "bob"} />
+      <Jad pose={good ? "jad-trophy-finish-line" : "jad-reading-sad"} size={170} animate={good ? "pop" : "bob"} />
 
       <motion.h1
         initial={{ scale: 0.8, opacity: 0 }}

@@ -41,7 +41,7 @@ export function PracticeScreen() {
       {loading ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/jad-images/logo.png" alt="IQRA" width={48} height={48} className="h-12 w-12 object-contain opacity-90" />
+          <img src="/jad-images/logo.png" alt="IQRA" width={96} height={96} className="h-24 w-24 object-contain opacity-90" />
           <Jad pose="jad-thinking" size={130} />
           <p className="inline-flex items-center gap-2 text-base font-bold text-slate-500">
             <SpinnerIcon className="h-5 w-5" />
@@ -138,7 +138,7 @@ export function PracticeScreen() {
           {practiceWords.length > 0 && (
             <div className="card mx-auto max-w-xl p-5 md:p-6">
               <div className="mb-3 flex items-center gap-2 text-base font-bold text-slate-500">
-                <Jad pose="jad-wearing-headphones" size={40} animate="none" />
+                <Jad pose="jad-wearing-headphones" size={72} animate="none" />
                 <VolumeIcon className="h-5 w-5 text-brand" />
                 {t("practice_words_label")}
               </div>
