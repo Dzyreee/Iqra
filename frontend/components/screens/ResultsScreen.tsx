@@ -6,13 +6,13 @@ import { useApp } from "@/components/AppProvider";
 import { Jad } from "@/components/Jad";
 import { PressButton } from "@/components/ui/PressButton";
 import { useLang } from "@/components/LanguageProvider";
-import { GaugeIcon, BoltIcon } from "@/components/icons";
+import { GaugeIcon } from "@/components/icons";
 
 const GOOD = 70; // accuracy % threshold for a celebration
 
 async function celebrate() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  // Browser-only — loaded on demand so it never runs during SSR.
+  // Browser-only, loaded on demand so it never runs during SSR.
   const confetti = (await import("canvas-confetti")).default;
   const sky = ["#1CB0F6", "#6FCBF9"];
   const origin = { y: 0.6 };
@@ -47,21 +47,14 @@ export function ResultsScreen() {
         {good ? t("great_job") : t("keep_practicing")}
       </motion.h1>
 
-      {/* stat tiles */}
-      <div className="mt-6 grid w-full grid-cols-2 gap-3">
-        <div className="card flex flex-col items-center gap-1 p-4">
-          <GaugeIcon className="h-6 w-6 text-brand" />
-          <span className="font-display text-3xl font-extrabold text-ink">
+      {/* accuracy */}
+      <div className="mt-6 w-full">
+        <div className="card flex flex-col items-center gap-1 p-5">
+          <GaugeIcon className="h-8 w-8 text-brand" />
+          <span className="font-display text-5xl font-extrabold text-ink">
             {Math.round(em.accuracy_pct)}%
           </span>
-          <span className="text-xs font-bold text-slate-500">{t("stat_accuracy")}</span>
-        </div>
-        <div className="card flex flex-col items-center gap-1 p-4">
-          <BoltIcon className="h-6 w-6 text-accent" />
-          <span className="font-display text-3xl font-extrabold text-ink">
-            {em.wpm != null ? Math.round(em.wpm) : "—"}
-          </span>
-          <span className="text-xs font-bold text-slate-500">{t("stat_speed_sub")}</span>
+          <span className="text-sm font-bold text-slate-500">{t("stat_accuracy")}</span>
         </div>
       </div>
 

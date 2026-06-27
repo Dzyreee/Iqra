@@ -22,7 +22,7 @@ PROMPT = (
 
 
 def main() -> None:
-    print("[04] Diwan poetry — discovering a working model id")
+    print("[04] Diwan poetry, discovering a working model id")
     client = openai_client()
     winner = None
     for mid in CANDIDATES:
@@ -46,7 +46,7 @@ def main() -> None:
     if winner:
         c.ok(f"Diwan-capable model id = {winner!r}  (set models.DIWAN to this)")
     else:
-        c.fail("no candidate produced a verse — widen CANDIDATES / check 00b_probe output")
+        c.fail("no candidate produced a verse, widen CANDIDATES / check 00b_probe output")
 
 
 if __name__ == "__main__":

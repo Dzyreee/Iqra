@@ -4,7 +4,7 @@
 // less-common words. `demoMisread` = what the demo "child" reads (deliberate miscues
 // that survive Aura normalization) so the no-mic demo produces a coherent diagnosis.
 //
-// The reading-screen illustration is NOT stored per lesson — Fanar picks the best match
+// The reading-screen illustration is NOT stored per lesson, Fanar picks the best match
 // from the shared library (see lib/library.ts) at runtime via a fast text call.
 
 export interface Lesson {
@@ -16,42 +16,42 @@ export interface Lesson {
 }
 
 export const LESSONS: Lesson[] = [
-  // L1 — very short, easy
+  // L1, very short, easy
   {
     id: 1,
     title: "المدرسة",
     passage: "ذهب الولد إلى المدرسة",
     demoMisread: "ذهب الولد إلى الحديقة",
   },
-  // L2 — short
+  // L2, short
   {
     id: 2,
     title: "الكرة",
     passage: "تلعب البنت بالكرة في الحديقة",
     demoMisread: "تلعب البنت بالكرة في البيت",
   },
-  // L3 — one longer sentence
+  // L3, one longer sentence
   {
     id: 3,
     title: "القصة",
     passage: "يقرأ الطفل قصة جميلة قبل النوم كل ليلة",
     demoMisread: "يقرأ الطفل قصة جميلة بعد النوم",
   },
-  // L4 — two short sentences
+  // L4, two short sentences
   {
     id: 4,
     title: "الصباح",
     passage: "استيقظ أحمد مبكرا في الصباح. غسل وجهه وذهب إلى المدرسة.",
     demoMisread: "استيقظ أحمد متأخرا في الصباح. غسل وجهه وذهب إلى البيت.",
   },
-  // L5 — two sentences, harder words
+  // L5, two sentences, harder words
   {
     id: 5,
     title: "الطيور",
     passage: "تحب الطيور الصغيرة أن تغرد فوق الأشجار. تطير بعيدا في السماء الزرقاء الواسعة.",
     demoMisread: "تحب الطيور الصغيرة أن تطير فوق الأشجار. تطير بعيدا في السماء الواسعة.",
   },
-  // L6 — three sentences, hardest / less-common vocabulary
+  // L6, three sentences, hardest / less-common vocabulary
   {
     id: 6,
     title: "الخريف",

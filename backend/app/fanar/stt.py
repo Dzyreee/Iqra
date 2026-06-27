@@ -2,7 +2,7 @@
 
 Endpoint is OpenAI-shaped: client.audio.transcriptions.create(model=..., file=...).
 The transcript is fed VERBATIM into the deterministic alignment engine, so we must
-NOT post-process / "clean" it here — preserving the child's actual reading is the
+NOT post-process / "clean" it here, preserving the child's actual reading is the
 whole point (see the Phase 0 faithfulness gate).
 """
 from __future__ import annotations

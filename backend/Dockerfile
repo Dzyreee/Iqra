@@ -1,4 +1,4 @@
-# Naghami backend — FastAPI + Fanar clients.
+# Naghami backend, FastAPI + Fanar clients.
 FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1 \
@@ -10,7 +10,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# App code (the FANAR_API_KEY is NOT baked in — it's injected at runtime via env_file).
+# App code (the FANAR_API_KEY is NOT baked in, it's injected at runtime via env_file).
 COPY . .
 
 EXPOSE 8000

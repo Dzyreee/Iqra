@@ -8,7 +8,7 @@
     {
       "name": "aura_faithfulness",
       "question": "Does Aura STT preserve a child's reading errors?",
-      "result": "MIXED — 2 real-word miscue(s) preserved, 1 non-word (emphatic) miscue(s) normalized toward the nearest valid word",
+      "result": "MIXED, 2 real-word miscue(s) preserved, 1 non-word (emphatic) miscue(s) normalized toward the nearest valid word",
       "details": {
         "target": "ذهب الولد إلى المدرسة في الصباح",
         "misread_spoken": "ذهب الورد إلى المدرصة في المساء",
@@ -83,7 +83,7 @@
             "The sentences are short and easy to understand."
           ]
         },
-        "note": "No real Diwan model on this key — verse is the Fanar chat fallback."
+        "note": "No real Diwan model on this key, verse is the Fanar chat fallback."
       },
       "recommendation": "Expose the Diwan model via API with a child reading-level / meter control; the chat fallback sometimes drifts to advanced vocabulary without tight prompting.",
       "latency_ms": 5880
@@ -99,7 +99,7 @@
         "image_bytes": 420583,
         "image_saved": "/Users/yacine/Desktop/Naghami/backend/eval/_out/eval_oryx_letter.png"
       },
-      "recommendation": "Oryx-IG is unreliable for exact Arabic letterforms — keep it to decorative art and render all reading text in the app's font layer (we already do).",
+      "recommendation": "Oryx-IG is unreliable for exact Arabic letterforms, keep it to decorative art and render all reading text in the app's font layer (we already do).",
       "latency_ms": 7714
     }
   ]

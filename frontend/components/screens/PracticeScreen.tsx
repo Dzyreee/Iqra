@@ -54,7 +54,7 @@ export function PracticeScreen() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-5 flex-1 space-y-5"
         >
-          {/* WHY — the differentiator: poem built from the child's weak sounds */}
+          {/* WHY, the differentiator: poem built from the child's weak sounds */}
           <div className="mx-auto max-w-xl text-center">
             {sounds.length > 0 ? (
               <>
@@ -81,7 +81,7 @@ export function PracticeScreen() {
             )}
           </div>
 
-          {/* HERO — poem + Fanar-picked image in ONE card, side-by-side on desktop */}
+          {/* HERO, poem + Fanar-picked image in ONE card, side-by-side on desktop */}
           {poem && (
             <motion.div
               initial={{ scale: 0.96, opacity: 0 }}

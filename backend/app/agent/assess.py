@@ -35,7 +35,7 @@ def assess(
 
     trace = trace or Trace()
 
-    # 1) Transcribe (Aura STT) — skipped when a transcript is supplied directly.
+    # 1) Transcribe (Aura STT), skipped when a transcript is supplied directly.
     if transcript is None:
         with trace.step("transcribe", model=AURA_STT,
                         input={"audio_file": str(audio_path)},
@@ -44,7 +44,7 @@ def assess(
             st.set_output({"transcript": transcript},
                           summary=f"Transcribed {len(transcript.split())} words")
 
-    # 2) Align + classify (pure Python, deterministic — HARD RULE 3).
+    # 2) Align + classify (pure Python, deterministic, HARD RULE 3).
     with trace.step("align", model=DETERMINISTIC,
                     input={"target": target_text, "transcript": transcript},
                     summary="Deterministic alignment + miscue classification") as st:
@@ -53,7 +53,7 @@ def assess(
         st.set_output(
             {"accuracy_pct": em.accuracy_pct, "miscue_counts": em.counts,
              "correct": em.correct_words, "total": em.total_target_words},
-            summary=f"Accuracy {em.accuracy_pct}% — miscues {em.counts or '{}'}",
+            summary=f"Accuracy {em.accuracy_pct}%, miscues {em.counts or '{}'}",
         )
 
     # 3) Diagnose the pattern (Fanar-27B, JSON output).

@@ -23,7 +23,7 @@ NAME = "ليان"
 TARGET = "صعد الصقر فوق الصخرة ورأى البحر"
 WEAK_SOUNDS = ["ص", "ر"]
 
-# (date, what the child actually read, reading duration in seconds) — improving over time.
+# (date, what the child actually read, reading duration in seconds), improving over time.
 SESSIONS = [
     ("2026-06-10", "سعد السقر فوق الصخرة وراء البحر", 36.0),   # many ص/ر errors
     ("2026-06-17", "صعد السقر فوق الصخرة ورأى البحر", 30.0),   # fewer

@@ -12,7 +12,7 @@ import {
 import * as api from "@/lib/api";
 import { LESSONS, lessonById, type Lesson } from "@/lib/lessons";
 import { libraryCandidates, librarySrc } from "@/lib/library";
-import { sampleProgress } from "@/lib/sample";
+import { offlineAssessFor, sampleAdapt, sampleProgress } from "@/lib/sample";
 import type { AdaptResult, AssessResult, Progress } from "@/lib/types";
 
 export type Screen =
@@ -25,16 +25,27 @@ export type Screen =
 
 export type NodeState = "completed" | "current" | "locked";
 
-// Mocked gamification — there is no backend lesson-map/streak/stars concept.
+// Mocked gamification, there is no backend lesson-map/streak/stars concept.
 interface Game {
   completed: number[];
   streak: number;
   lastPracticeDate: string | null; // YYYY-MM-DD
   stars: number;
+  childName: string;
 }
 
 const GAME_KEY = "naghami-game";
-const DEFAULT_GAME: Game = { completed: [], streak: 0, lastPracticeDate: null, stars: 0 };
+const DEFAULT_GAME: Game = {
+  completed: [],
+  streak: 0,
+  lastPracticeDate: null,
+  stars: 0,
+  childName: "ليلى",
+};
+
+// Dev-only: random demo profiles for quick reset/variation while testing.
+const CHILD_NAMES = ["ليلى", "سارة", "يوسف", "أحمد", "نور", "عمر", "مريم", "زيد"];
+const randInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const yesterdayStr = () => {
@@ -43,6 +54,12 @@ const yesterdayStr = () => {
   return d.toISOString().slice(0, 10);
 };
 const starsFor = (accuracyPct: number) => (accuracyPct >= 90 ? 3 : accuracyPct >= 70 ? 2 : 1);
+
+// Offline demo mode (dev tool): run the whole flow on canned data, no Fanar calls.
+const OFFLINE_KEY = "iqra-offline";
+const delay = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+// Library image to show per lesson when offline (so an illustration is still present).
+const OFFLINE_IMG = ["school", "park", "bedtime", "sun", "birds", "autumn"];
 
 interface AppCtx {
   online: boolean | null;
@@ -59,12 +76,14 @@ interface AppCtx {
   busyAdapt: boolean;
   note: string | null;
 
-  // Fanar-picked illustrations (from the static library — no live image gen).
+  // Fanar-picked illustrations (from the static library, no live image gen).
   sessionImage: string | null;
   poemImage: string | null;
 
   game: Game;
+  childName: string;
   progress: Progress | null;
+  offline: boolean;
 
   openNode: (id: number) => void;
   runAudio: (blob: Blob) => void;
@@ -72,6 +91,8 @@ interface AppCtx {
   toResults: () => void;
   toPractice: () => void;
   finishLesson: () => void;
+  randomizeDemo: () => void;
+  toggleOffline: () => void;
 }
 
 const Ctx = createContext<AppCtx | null>(null);
@@ -89,15 +110,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [poemImage, setPoemImage] = useState<string | null>(null);
   const [game, setGame] = useState<Game>(DEFAULT_GAME);
   const [progress, setProgress] = useState<Progress | null>(sampleProgress);
+  const [offline, setOfflineState] = useState(false);
 
   // Cache the picked image per lesson so re-opening a node is instant.
   const imgCache = useRef<Map<number, string>>(new Map());
+  // Mirror of `offline` so callbacks always read the latest value without re-creating.
+  const offlineRef = useRef(false);
 
-  // Restore mocked game state.
+  // Restore mocked game state + offline demo flag.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(GAME_KEY);
       if (raw) setGame({ ...DEFAULT_GAME, ...JSON.parse(raw) });
+      const off = localStorage.getItem(OFFLINE_KEY) === "1";
+      offlineRef.current = off;
+      setOfflineState(off);
+      api.setOfflineMode(off);
     } catch {
       /* ignore */
     }
@@ -161,6 +189,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       setSessionImage(null);
+      if (offlineRef.current) {
+        setSessionImage(librarySrc(OFFLINE_IMG[(id - 1) % OFFLINE_IMG.length]));
+        return;
+      }
       void pickImage(lesson.passage).then((src) => {
         if (src) imgCache.current.set(id, src);
         setSessionImage(src);
@@ -169,7 +201,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [pickImage],
   );
 
-  // Shared assess runner — never falls back to mismatched sample data on error.
+  // Shared assess runner, never falls back to mismatched sample data on error.
   const runAssess = useCallback(
     async (call: () => Promise<AssessResult>) => {
       setNote(null);
@@ -186,18 +218,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
+  // Offline demo: synthesize a coherent assessment for the open lesson (no Fanar).
+  const simulateAssess = useCallback(async (lesson: Lesson) => {
+    setNote(null);
+    setBusyAssess(true);
+    setAdapt(null);
+    await delay(900);
+    setAssess(offlineAssessFor(lesson));
+    setBusyAssess(false);
+  }, []);
+
   const runAudio = useCallback(
     (blob: Blob) => {
       if (!activeLesson) return;
+      if (offlineRef.current) return void simulateAssess(activeLesson);
       void runAssess(() => api.assessAudio(activeLesson.passage, blob));
     },
-    [activeLesson, runAssess],
+    [activeLesson, runAssess, simulateAssess],
   );
 
   const runDemo = useCallback(() => {
     if (!activeLesson) return;
+    if (offlineRef.current) return void simulateAssess(activeLesson);
     void runAssess(() => api.assessTranscript(activeLesson.passage, activeLesson.demoMisread));
-  }, [activeLesson, runAssess]);
+  }, [activeLesson, runAssess, simulateAssess]);
 
   const toResults = useCallback(() => setScreen("results"), []);
 
@@ -209,6 +253,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setNote(null);
     setBusyAdapt(true);
     setPoemImage(null);
+    if (offlineRef.current) {
+      await delay(1100);
+      setAdapt(sampleAdapt);
+      setPoemImage(librarySrc("birds"));
+      setBusyAdapt(false);
+      return;
+    }
     try {
       const ad = await api.adapt(assess.diagnosis, { includeImage: false, includeAudio: false });
       setAdapt(ad);
@@ -238,10 +289,40 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         streak,
         lastPracticeDate: today,
         stars: game.stars + starsFor(accuracy),
+        childName: game.childName,
       });
     }
     setScreen("path");
   }, [activeId, assess, game, persistGame]);
+
+  // Dev-only: randomize the demo profile (name, streak, stars) and reset the path to L1.
+  const randomizeDemo = useCallback(() => {
+    persistGame({
+      completed: [],
+      streak: randInt(2, 21),
+      lastPracticeDate: todayStr(),
+      stars: randInt(5, 60),
+      childName: CHILD_NAMES[randInt(0, CHILD_NAMES.length - 1)],
+    });
+    setActiveId(null);
+    setAssess(null);
+    setAdapt(null);
+    setNote(null);
+    setScreen("path");
+  }, [persistGame]);
+
+  // Dev-only: toggle offline demo mode (whole flow runs on canned data, no Fanar).
+  const toggleOffline = useCallback(() => {
+    const v = !offlineRef.current;
+    offlineRef.current = v;
+    setOfflineState(v);
+    api.setOfflineMode(v);
+    try {
+      localStorage.setItem(OFFLINE_KEY, v ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const value = useMemo<AppCtx>(
     () => ({
@@ -259,18 +340,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       sessionImage,
       poemImage,
       game,
+      childName: game.childName,
       progress,
+      offline,
       openNode,
       runAudio,
       runDemo,
       toResults,
       toPractice,
       finishLesson,
+      randomizeDemo,
+      toggleOffline,
     }),
     [
       online, screen, go, activeLesson, nodeState, assess, adapt, busyAssess,
-      busyAdapt, note, sessionImage, poemImage, game, progress, openNode, runAudio,
-      runDemo, toResults, toPractice, finishLesson,
+      busyAdapt, note, sessionImage, poemImage, game, progress, offline, openNode,
+      runAudio, runDemo, toResults, toPractice, finishLesson, randomizeDemo, toggleOffline,
     ],
   );
 

@@ -1,6 +1,6 @@
 """Phase 0 discovery: list every model the key can see. Run: python smoke/00_list_models.py
 
-NOTE: Fanar's /v1/models is NOT OpenAI-shaped — the payload key is "models", not
+NOTE: Fanar's /v1/models is NOT OpenAI-shaped, the payload key is "models", not
 "data", so the openai SDK's models.list() returns None. Use a raw GET.
 """
 import _common as c

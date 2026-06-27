@@ -1,5 +1,5 @@
 """Oryx-IVU (image/video understanding): read the Arabic text off a photographed book
-page so a parent can set the day's target passage from a real book — and, in the eval
+page so a parent can set the day's target passage from a real book, and, in the eval
 harness, read back an Oryx-IG image to check whether it rendered legible Arabic.
 
 Uses the OpenAI vision message shape on the chat endpoint (Fanar-Oryx-IVU-2).

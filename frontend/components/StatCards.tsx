@@ -22,7 +22,7 @@ export function StatCards({ em }: { em: ErrorMap }) {
     },
     {
       label: t("stat_speed"),
-      value: em.wpm != null ? `${em.wpm}` : "—",
+      value: em.wpm != null ? `${em.wpm}` : ", ",
       sub: t("stat_speed_sub"),
       icon: <GaugeIcon className="h-5 w-5" />,
       tone: "text-brand",

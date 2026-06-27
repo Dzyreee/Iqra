@@ -1,8 +1,8 @@
-"""THE CRITICAL TEST — the Aura STT faithfulness gate.
+"""THE CRITICAL TEST, the Aura STT faithfulness gate.
 
 Naghami detects reading errors by comparing a transcript of the child to a KNOWN
 target text. That only works if Aura STT transcribes what was ACTUALLY said,
-errors and all — i.e. it must NOT silently "correct" misreadings toward fluent text.
+errors and all, i.e. it must NOT silently "correct" misreadings toward fluent text.
 
 How we test it without a child recording:
   TARGET  = the correct passage.

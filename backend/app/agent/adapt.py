@@ -1,4 +1,4 @@
-"""ADAPT: the adaptive action that closes the loop — plan a targeted exercise from the
+"""ADAPT: the adaptive action that closes the loop, plan a targeted exercise from the
 diagnosis, then generate it (verse + art + audio). Records both steps in the Trace.
 """
 from __future__ import annotations

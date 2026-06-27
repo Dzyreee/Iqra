@@ -11,7 +11,7 @@ import { useLang } from "@/components/LanguageProvider";
 import { useSpeak } from "@/components/useSpeak";
 import { BookIcon, PlayIcon, VolumeIcon, XIcon } from "@/components/icons";
 
-// A tap on a word plays ONLY that word (Aura TTS) as a hint — never the whole sentence,
+// A tap on a word plays ONLY that word (Aura TTS) as a hint, never the whole sentence,
 // so the child still reads it themselves. Capped per lesson to keep it a hint.
 const HINT_LIMIT = 2;
 
@@ -114,7 +114,7 @@ export function SessionScreen() {
         </p>
       </div>
 
-      {/* reading card — image beside the passage (stacks on mobile) */}
+      {/* reading card, image beside the passage (stacks on mobile) */}
       <motion.div layout className="card mt-3 overflow-hidden md:grid md:grid-cols-2">
         <LessonImage key={activeLesson.id} src={sessionImage} alt={activeLesson.title} />
         <div className="flex flex-col items-center justify-center p-6 md:p-8">
@@ -149,7 +149,7 @@ export function SessionScreen() {
             })}
           </div>
 
-          {/* hint meter — encourages a tap, then a friendly stop */}
+          {/* hint meter, encourages a tap, then a friendly stop */}
           <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-slate-500">
             {canHint ? (
               <>

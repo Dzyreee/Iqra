@@ -1,9 +1,9 @@
 """Aura TTS: pronounce hard words correctly for the child to imitate.
 
 POST /audio/speech with {model, voice, input} -> binary audio. NOTE (Phase 0): the
-bytes are MP3 (MPEG layer III, 64 kbps, 24 kHz mono), NOT WAV — save as .mp3; it
+bytes are MP3 (MPEG layer III, 64 kbps, 24 kHz mono), NOT WAV, save as .mp3; it
 plays natively in browsers. Voices are PROPER NAMES (e.g. Noor, Huda) listed at
-GET /audio/voices — generic strings like "female" return 422 (re-verified in Phase 0).
+GET /audio/voices, generic strings like "female" return 422 (re-verified in Phase 0).
 """
 from __future__ import annotations
 

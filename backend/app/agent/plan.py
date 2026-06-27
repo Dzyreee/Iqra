@@ -1,5 +1,5 @@
 """PLAN step: Fanar-27B turns the diagnosis into a concrete, targeted exercise spec
-(JSON output) — what words/passage/verse/illustration/audio to produce for the child's
+(JSON output), what words/passage/verse/illustration/audio to produce for the child's
 weak sounds. The actual media is produced by generate.py.
 """
 from __future__ import annotations
@@ -14,12 +14,12 @@ SYSTEM = (
     "You are an expert Arabic early-reading teacher designing a FUN practice exercise "
     "for a child aged 6-8, targeting specific weak sounds/letters from a diagnosis.\n\n"
     "Rules:\n"
-    "1. All child-facing text in simple, correct Modern Standard Arabic — playful, positive, "
+    "1. All child-facing text in simple, correct Modern Standard Arabic, playful, positive, "
     "fully age-appropriate. No scary, sad, religious, or violent themes.\n"
     "2. LOAD the words/passage with the TARGET sounds so the child practices them a lot.\n"
     "3. The illustration prompt MUST be in ENGLISH, describe one cheerful simple scene, and "
     "MUST end with 'no text, no letters' (the image model can't render Arabic reliably).\n"
-    "4. Output ONLY a JSON object — no prose, no markdown.\n\n"
+    "4. Output ONLY a JSON object, no prose, no markdown.\n\n"
     "JSON schema:\n"
     "{\n"
     '  "title": "<short playful Arabic title>",\n'

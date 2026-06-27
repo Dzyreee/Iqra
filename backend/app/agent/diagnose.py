@@ -2,7 +2,7 @@
 deterministic error map (JSON output). It does NOT recompute anything (HARD RULE 3).
 
 Honest framing is enforced in the system prompt AND defended in code: Naghami is a
-reading-SUPPORT tool, never a diagnostic one — no clinical labels, ever.
+reading-SUPPORT tool, never a diagnostic one, no clinical labels, ever.
 """
 from __future__ import annotations
 
@@ -30,16 +30,16 @@ _FORBIDDEN = re.compile(
 SYSTEM = (
     "You are a warm, encouraging Arabic reading COACH for children aged 6-8. "
     "You receive a DETERMINISTIC error report from one read-aloud session (already "
-    "computed by a separate engine — never recompute or invent numbers). Your job is to "
+    "computed by a separate engine, never recompute or invent numbers). Your job is to "
     "name the READING PATTERN and the specific sounds/letters to practice next.\n\n"
-    "ABSOLUTE RULES — this is reading SUPPORT, NOT diagnosis:\n"
+    "ABSOLUTE RULES, this is reading SUPPORT, NOT diagnosis:\n"
     "1. Never name or imply any medical or clinical condition (no 'dyslexia', 'disorder', "
     "'diagnosis', etc.). Never say the child 'has' anything.\n"
     "2. Frame every concern as 'a pattern worth practicing', and only suggest a specialist "
     "with: 'worth checking with a specialist if it continues'.\n"
     "3. Be specific and base EVERY claim only on the provided data. Be kind.\n"
     "4. Write the content fields in simple Arabic.\n"
-    "5. Output ONLY a JSON object — no prose, no markdown.\n\n"
+    "5. Output ONLY a JSON object, no prose, no markdown.\n\n"
     "JSON schema:\n"
     "{\n"
     '  "patterns": [ {"label": "<short Arabic phrase>", "evidence": "<from the data>", '
@@ -107,7 +107,7 @@ def _headline(diagnosis: dict) -> str:
 def diagnose(em: ErrorMap, trace=None, model: str = CHAT_27B) -> dict:
     """Return a structured, honest-framed diagnosis of the reading pattern."""
     facts = summarize_error_map(em)
-    user = ("Reading-session error report (deterministic — do not recompute):\n"
+    user = ("Reading-session error report (deterministic, do not recompute):\n"
             + json.dumps(facts, ensure_ascii=False, indent=2))
 
     def run() -> dict:

@@ -2,7 +2,7 @@
 
 Replaces slow live image generation: instead of generating art per poem/passage at
 runtime, we keep a fixed library of pre-generated illustrations and ask the Fanar chat
-model to choose the best match — a fast text call. JSON-only output (native tool-calling
+model to choose the best match, a fast text call. JSON-only output (native tool-calling
 is unavailable to our key, Phase 0 finding). Degrades to the first candidate on any error
 so the reading flow never blocks on this.
 """

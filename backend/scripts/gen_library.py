@@ -2,14 +2,14 @@
 
 Generates a small fixed set of kid-friendly scenes and saves them to
 frontend/public/library/<id>.png. At runtime Fanar PICKS the best-matching image for a
-passage/poem (a fast text call) — so this slow generation only ever runs once. Re-run only
+passage/poem (a fast text call), so this slow generation only ever runs once. Re-run only
 if you change the library list below (keep ids in sync with frontend/lib/library.ts).
 
     cd backend && .venv/bin/python -m scripts.gen_library
     cd backend && .venv/bin/python -m scripts.gen_library --only school sea autumn
     cd backend && .venv/bin/python -m scripts.gen_library --force   # overwrite
 
-Needs the Fanar key in .env + VPN. Oryx-IG renders DECORATIVE art only — the prompt
+Needs the Fanar key in .env + VPN. Oryx-IG renders DECORATIVE art only, the prompt
 forbids text/letters (Arabic letterforms are unreliable).
 """
 from __future__ import annotations
@@ -57,11 +57,11 @@ def main() -> int:
     ids = args.only or list(LIBRARY)
     for i in ids:
         if i not in LIBRARY:
-            print(f"! unknown id '{i}' — skip")
+            print(f"! unknown id '{i}', skip")
             continue
         out = OUT_DIR / f"{i}.png"
         if out.exists() and not args.force:
-            print(f"· {i}.png exists — skip (use --force to redo)")
+            print(f"· {i}.png exists, skip (use --force to redo)")
             continue
         print(f"… generating {i}.png  ({LIBRARY[i]})")
         png = generate_image(PROMPT.format(scene=LIBRARY[i]))

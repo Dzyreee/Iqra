@@ -4,7 +4,7 @@ Run: python smoke/05_oryx_ig.py
 import _common as c
 from app.fanar.image import generate_image
 
-# Decorative, child-friendly scene (no Arabic text rendered in-image — see image.py note).
+# Decorative, child-friendly scene (no Arabic text rendered in-image, see image.py note).
 PROMPT = ("A cheerful flat-style children's book illustration of a small bird on a branch "
           "in the morning sun, soft pastel colors, simple shapes, no text.")
 

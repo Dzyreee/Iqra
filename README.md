@@ -1,4 +1,4 @@
-# نَغَمي · Naghami — an adaptive Arabic reading tutor for children
+# نَغَمي · Naghami, an adaptive Arabic reading tutor for children
 
 > **Naghami is a reading-SUPPORT tool, not a diagnostic tool.** It helps every child
 > practice and improves reading, and it can surface early error *patterns* for a parent to
@@ -17,12 +17,12 @@ multiple sessions it tracks whether the child improves on their weak sounds.
 ## 1. Problem statement
 
 Early reading difficulties are common, but specialist assessment is scarce, expensive, and
-intimidating — especially in Arabic, with its emphatic consonants (ص ض ط ظ), short-vowel
+intimidating, especially in Arabic, with its emphatic consonants (ص ض ط ظ), short-vowel
 diacritics, and rich morphology. Parents have no everyday way to know *which sounds* their
 child struggles with, or whether practice is helping.
 
 Naghami gives every child fun, targeted reading practice **and** gives parents an honest,
-non-clinical view of recurring error patterns over time — the kind of concrete signal that
+non-clinical view of recurring error patterns over time, the kind of concrete signal that
 makes a conversation with a specialist productive, without ever pretending to be one.
 
 ## 2. Why the core works with **zero training data**
@@ -58,7 +58,7 @@ deterministic alignment is the foundation of the whole app.
 
 **The separation is the design (HARD RULE):** the deterministic engine *owns* the error map;
 the LLM only *reasons on top of it* (diagnose / plan). The alignment and miscue classification
-are never done by an LLM — they're pure, unit-tested Python. This makes Naghami auditable and
+are never done by an LLM, they're pure, unit-tested Python. This makes Naghami auditable and
 keeps error detection trustworthy.
 
 ### Repository layout
@@ -67,7 +67,7 @@ backend/
   app/
     engine/      # ★ deterministic alignment + miscue engine (pure Python, no LLM)
     fanar/       # one module per Fanar model: stt, tts, chat, diwan, image, guard,
-                 #   translate (Shaheen), vision (Oryx-IVU)  — each demoable in isolation
+                 #   translate (Shaheen), vision (Oryx-IVU), each demoable in isolation
     agent/       # trace, diagnose, plan, generate, assess, adapt  (the agentic loop)
     memory/      # per-child JSON profiles + deterministic per-sound progress
     api.py       # FastAPI: /assess /adapt /progress /progress/summary /read-page /health
@@ -104,8 +104,8 @@ Native tool-calling is **not authorized** on our key (Phase 0 finding), so every
 |-------------|-----------------|-------|
 | `Fanar-Aura-STT-1` | transcribe the child's reading (core input) | no usable timestamps → WPM from local audio |
 | `Fanar-C-2-27B` | diagnose pattern + plan exercise | JSON output; honest-framing prompt + code-level scrub |
-| `Fanar` | practice **verse** (Diwan fallback) | **no Diwan model exists on the key** — see §7 |
-| `Fanar-Oryx-IG-2` | illustrate exercises | decorative only — cannot render exact Arabic letters |
+| `Fanar` | practice **verse** (Diwan fallback) | **no Diwan model exists on the key**, see §7 |
+| `Fanar-Oryx-IG-2` | illustrate exercises | decorative only, cannot render exact Arabic letters |
 | `Fanar-Aura-TTS-2` | pronounce hard words | returns **MP3** (not WAV); 10 named voices |
 | `Fanar-Guard-2` | validate child-facing content | `safety` + `cultural_awareness` scores (0–5) |
 | `Fanar-Shaheen-MT-1` | English progress summary for expat parents | `/translations` endpoint |
@@ -115,7 +115,7 @@ Native tool-calling is **not authorized** on our key (Phase 0 finding), so every
 Fanar base URL (`https://api.fanar.qa/v1`) plus raw **`httpx`** for the non-OpenAI-shaped
 endpoints; **pytest** for the engine; **Next.js (App Router) + Tailwind** for the frontend
 (RTL Arabic, **Baloo Bhaijaan 2** + **Tajawal** fonts). The API key lives only in
-`backend/.env` (gitignored) and is loaded at runtime — never hardcoded, never printed.
+`backend/.env` (gitignored) and is loaded at runtime, never hardcoded, never printed.
 
 ## 6. Evaluation results
 
@@ -124,9 +124,9 @@ Run `cd backend && .venv/bin/python -m eval.harness` → `eval/REPORT.md` + `eva
 | Question | Finding |
 |----------|---------|
 | **Does Aura preserve a child's reading errors?** | **MIXED.** Real-word miscues (substitutions/omissions/insertions) are preserved; **non-word mispronunciations (emphatic ص↔س etc.) are normalized** to the nearest valid word. → the engine trusts word-level miscues and treats fine phonetic errors as low-confidence, corroborated by timing. |
-| **How does Aura handle higher-pitched (child-like) speech?** | Clear synthetic speech round-trips equally well across higher- (female) and lower-pitched (male) voices (≈0-pt spread). **Caveat:** real 6–8-yo speech (high F0 + disfluency) wasn't available — a recommendation to Fanar below. |
-| **Was the Diwan/Fanar verse age-appropriate?** | Yes — FanarGuard safety ≈ **4.5/5**, an LLM judge rated reading level **"easy"** and appropriate. The Fanar fallback can drift to advanced vocabulary without tight prompting (we cap length + demand simple words). |
-| **Did Oryx-IG render the target Arabic letters?** | **No.** Asked for the letter ص, it produced "الله"-style calligraphy; **Oryx-IVU read it back as `الله` / `ب`** — Oryx-IG can't render specific letterforms. We therefore render *all* reading text in the app's font layer and use Oryx-IG for decoration only. |
+| **How does Aura handle higher-pitched (child-like) speech?** | Clear synthetic speech round-trips equally well across higher- (female) and lower-pitched (male) voices (≈0-pt spread). **Caveat:** real 6–8-yo speech (high F0 + disfluency) wasn't available, a recommendation to Fanar below. |
+| **Was the Diwan/Fanar verse age-appropriate?** | Yes, FanarGuard safety ≈ **4.5/5**, an LLM judge rated reading level **"easy"** and appropriate. The Fanar fallback can drift to advanced vocabulary without tight prompting (we cap length + demand simple words). |
+| **Did Oryx-IG render the target Arabic letters?** | **No.** Asked for the letter ص, it produced "الله"-style calligraphy; **Oryx-IVU read it back as `الله` / `ب`**, Oryx-IG can't render specific letterforms. We therefore render *all* reading text in the app's font layer and use Oryx-IG for decoration only. |
 
 ## 7. Concrete recommendations for improving Fanar
 
@@ -138,13 +138,13 @@ Run `cd backend && .venv/bin/python -m eval.harness` → `eval/REPORT.md` + `eva
    reading tutor needs to see.
 3. **Populate Aura STT timestamps.** `verbose_json` + `timestamp_granularities` is accepted but
    returns empty `words`/`segments`/`duration`, forcing client-side timing for WPM/hesitations.
-4. **Publish Aura accuracy on children's speech** (high pitch, disfluency, invented words) — the
+4. **Publish Aura accuracy on children's speech** (high pitch, disfluency, invented words), the
    population this kind of app serves.
 5. **Document the bespoke endpoints.** `/models` uses key `models` not `data`; `/translations`
    and `/moderations` are non-OpenAI shapes; `Fanar-Guard-2` needs a prompt/response pair. These
    cost real discovery time (see `FANAR_NOTES.md`).
 6. **Unblock onboarding:** `api.fanar.qa` returns a confusing pre-auth `403` (HTML, `via: google`)
-   on some networks — looks like an auth bug but is a network block (needs VPN/hotspot).
+   on some networks, looks like an auth bug but is a network block (needs VPN/hotspot).
 
 ## 8. Setup & run
 

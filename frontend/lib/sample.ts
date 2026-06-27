@@ -1,5 +1,6 @@
 // Realistic sample payloads (shaped exactly like the backend) so the UI renders fully
 // populated for offline development/screenshots. Replaced by live data on interaction.
+import type { Lesson } from "./lessons";
 import type { AdaptResult, AssessResult, Progress } from "./types";
 
 export const SAMPLE_TARGET = "ذهب الولد الصغير إلى المدرسة في الصباح";
@@ -66,7 +67,7 @@ export const sampleAssess: AssessResult = {
         name: "align",
         model: "deterministic-engine",
         latency_ms: 0,
-        summary: "Accuracy 57.1% — miscues {'omission': 1, 'substitution': 2}",
+        summary: "Accuracy 57.1%, miscues {'omission': 1, 'substitution': 2}",
         input: null,
         output: { accuracy_pct: 57.1, miscue_counts: { substitution: 2, omission: 1 } },
         status: "ok",
@@ -118,6 +119,56 @@ export const sampleAdapt: AdaptResult = {
     total_latency_ms: 57833,
   },
 };
+
+// Build a coherent offline AssessResult for the lesson the child actually opened: the
+// shown passage is preserved and a couple of miscues are marked, so the highlights line
+// up and the flow runs with zero Fanar calls. Reuses the canned diagnosis (weak sounds),
+// which then drives the canned poem in `sampleAdapt`.
+export function offlineAssessFor(lesson: Lesson): AssessResult {
+  const targets = lesson.passage.split(/\s+/).filter(Boolean);
+  const words = targets.map((w, i) => {
+    const status: "correct" | "substitution" | "omission" =
+      i === 1 ? "substitution" : i === 3 ? "omission" : "correct";
+    return { index: i, target: w, status, spoken: status === "omission" ? null : w };
+  });
+  const total = targets.length;
+  const wrong = words.filter((w) => w.status !== "correct");
+  const correct = total - wrong.length;
+  const accuracy = Math.round((correct / total) * 1000) / 10;
+  const transcript = targets.filter((_, i) => i !== 3).join(" ");
+  const counts: Record<string, number> = {};
+  for (const w of wrong) counts[w.status] = (counts[w.status] ?? 0) + 1;
+
+  return {
+    target_text: lesson.passage,
+    transcript,
+    error_map: {
+      target_text: lesson.passage,
+      transcript_text: transcript,
+      words,
+      extras: [],
+      miscues: wrong.map((w) => ({
+        type: w.status,
+        target_word: w.target,
+        spoken_word: w.spoken,
+        note: "",
+      })),
+      counts,
+      total_target_words: total,
+      correct_words: correct,
+      accuracy_pct: accuracy,
+      transcript_words: total - 1,
+      duration_sec: null,
+      wpm: null,
+      wcpm: null,
+      timestamps_available: false,
+      hesitations: [],
+    },
+    diagnosis: sampleAssess.diagnosis,
+    trace: sampleAssess.trace,
+    recorded: false,
+  };
+}
 
 export const sampleProgress: Progress = {
   child_id: "demo-child",

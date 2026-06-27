@@ -1,7 +1,7 @@
 "use client";
 import { useLang } from "@/components/LanguageProvider";
 
-// Difficulty/level indicator — "Level N" + a small filled bar (completed nodes / total).
+// Difficulty/level indicator, "Level N" + a small filled bar (completed nodes / total).
 // Deliberately distinct from the streak chip so current level + progress read at a glance.
 export function LevelBadge({
   level,

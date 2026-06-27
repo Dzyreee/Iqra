@@ -1,4 +1,4 @@
-"""Naghami backend — adaptive Arabic reading tutor for children.
+"""Naghami backend, adaptive Arabic reading tutor for children.
 
 Honest framing (HARD RULE): Naghami is a reading-SUPPORT tool, not a diagnostic
 tool. It never claims to diagnose any condition and never outputs a clinical label.

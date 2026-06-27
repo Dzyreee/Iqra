@@ -7,8 +7,8 @@ can't name:
   - self-correction: an extra spoken word, similar to the next word the child then
                      reads correctly (a stumble immediately fixed).
 
-Repetitions and self-corrections do NOT count against accuracy — the target word was
-ultimately read correctly — matching standard oral-reading-fluency scoring.
+Repetitions and self-corrections do NOT count against accuracy, the target word was
+ultimately read correctly, matching standard oral-reading-fluency scoring.
 """
 from __future__ import annotations
 

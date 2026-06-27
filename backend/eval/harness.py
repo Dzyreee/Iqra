@@ -1,4 +1,4 @@
-"""Naghami evaluation harness — logs CONCRETE Fanar findings for the four questions in
+"""Naghami evaluation harness, logs CONCRETE Fanar findings for the four questions in
 the brief, then writes eval/findings.json + eval/REPORT.md (which the README cites).
 
   1. Did Aura preserve a child's reading errors (or normalize them away)?
@@ -69,7 +69,7 @@ def check_faithfulness() -> dict:
         rows.append({"error": label, "verdict": verdict})
 
     if preserved and normalized:
-        result = (f"MIXED — {preserved} real-word miscue(s) preserved, {normalized} "
+        result = (f"MIXED, {preserved} real-word miscue(s) preserved, {normalized} "
                   f"non-word (emphatic) miscue(s) normalized toward the nearest valid word")
     elif preserved:
         result = f"Aura PRESERVES reading errors ({preserved}/{len(errors)} kept)"
@@ -145,7 +145,7 @@ def check_diwan_appropriateness() -> dict:
         result,
         {"verse": verse, "word_count": len(words), "avg_word_len": avg_len,
          "long_words": long_words, "fanarguard": guard, "llm_judge": judge,
-         "note": "No real Diwan model on this key — verse is the Fanar chat fallback."},
+         "note": "No real Diwan model on this key, verse is the Fanar chat fallback."},
         "Expose the Diwan model via API with a child reading-level / meter control; the "
         "chat fallback sometimes drifts to advanced vocabulary without tight prompting.",
     )
@@ -175,7 +175,7 @@ def check_oryx_arabic_text() -> dict:
         result,
         {"requested_letter": "ص", "ivu_readback": readback, "legible": legible,
          "image_bytes": len(png), "image_saved": str(_OUT_MEDIA / "eval_oryx_letter.png")},
-        "Oryx-IG is unreliable for exact Arabic letterforms — keep it to decorative art "
+        "Oryx-IG is unreliable for exact Arabic letterforms, keep it to decorative art "
         "and render all reading text in the app's font layer (we already do).",
     )
 
@@ -193,7 +193,7 @@ def _write_report(findings: list, meta: dict) -> None:
         json.dumps({"meta": meta, "findings": findings}, ensure_ascii=False, indent=2),
         encoding="utf-8")
 
-    lines = ["# Naghami — Fanar Evaluation Findings", "",
+    lines = ["# Naghami, Fanar Evaluation Findings", "",
              f"_Run {meta['date']} · {meta['checks_run']} checks · "
              f"{meta['total_sec']}s total._", ""]
     for f in findings:

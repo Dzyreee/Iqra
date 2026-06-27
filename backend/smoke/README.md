@@ -23,4 +23,4 @@ bash smoke/run_all.sh          # or run individual scripts below
 | `03_aura_stt.py` | Aura STT round-trip of the TTS clip |
 | `04_diwan.py` | **discovers the Diwan model id** + generates a kid verse drilling a sound |
 | `05_oryx_ig.py` | Oryx-IG illustration (decorative, no in-image Arabic text) |
-| `10_faithfulness_gate.py` | **THE CRITICAL TEST** — does Aura preserve reading errors or normalize them? |
+| `10_faithfulness_gate.py` | **THE CRITICAL TEST**, does Aura preserve reading errors or normalize them? |

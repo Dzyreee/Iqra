@@ -18,7 +18,7 @@ const offsetFor = (i: number) => Math.round(Math.sin(i * 0.9) * 58);
 
 export function PathScreen() {
   const { t, lang, toggle } = useLang();
-  const { lessons, nodeState, openNode, game, go } = useApp();
+  const { lessons, nodeState, openNode, game, go, offline } = useApp();
 
   // Current level = current node index; bar fills with completed / total nodes.
   const level = Math.min(game.completed.length + 1, lessons.length);
@@ -37,9 +37,14 @@ export function PathScreen() {
   return (
     <div className="mx-auto w-full max-w-md px-5 pb-10 pt-6 md:max-w-2xl lg:max-w-5xl xl:max-w-6xl">
       {/* Brand */}
-      <div className="mb-4 flex justify-center">
+      <div className="mb-4 flex flex-col items-center gap-1">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/jad-images/logo.png" alt="IQRA — اقرأ" width={56} height={56} className="h-14 w-14 object-contain" />
+        <img src="/jad-images/logo.png" alt="IQRA اقرأ" width={56} height={56} className="h-14 w-14 object-contain" />
+        {offline && (
+          <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-extrabold tracking-wide text-emerald-700">
+            OFFLINE DEMO
+          </span>
+        )}
       </div>
 
       {/* Top stats */}
@@ -77,9 +82,11 @@ export function PathScreen() {
         {/* Left rail (stacks above the trail on mobile) */}
         <aside className="mt-4 space-y-4 lg:w-80 lg:shrink-0 lg:sticky lg:top-6 lg:self-start">
           <div className="flex items-end gap-3">
-            <Jad pose="jad-waving" size={96} />
+            <Jad pose="jad-waving" size={132} />
             <div className="relative mb-3 flex-1 rounded-[1.25rem] border-2 border-sky-100 bg-white px-4 py-3 shadow-soft">
-              <p className="font-display text-xl font-extrabold text-ink">{t("greet")}</p>
+              <p className="font-display text-xl font-extrabold text-ink">
+                {t("greet_hi")} {game.childName}!
+              </p>
               <p className="text-base text-slate-500">{t("lets_read")}</p>
             </div>
           </div>
@@ -115,7 +122,7 @@ export function PathScreen() {
                   whileHover={locked ? undefined : { scale: 1.06 }}
                   whileTap={locked ? undefined : { scale: 0.9 }}
                   onClick={() => !locked && openNode(l.id)}
-                  aria-label={`${l.title}${locked ? ` — ${t("locked_hint")}` : ""}`}
+                  aria-label={`${l.title}${locked ? `, ${t("locked_hint")}` : ""}`}
                   className={[
                     "grid h-20 w-20 place-items-center rounded-full border-b-[6px] transition-colors",
                     current ? "animate-pulse-glow" : "",
@@ -143,7 +150,7 @@ export function PathScreen() {
         </div>
       </div>
 
-      {/* Progress entry — mobile only (in the rail on desktop) */}
+      {/* Progress entry, mobile only (in the rail on desktop) */}
       <div className="mt-8 lg:hidden">{progressBtn}</div>
     </div>
   );

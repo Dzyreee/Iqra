@@ -1,4 +1,4 @@
-"""A structured, serializable Trace of the pipeline — model used, latency, input and
+"""A structured, serializable Trace of the pipeline, model used, latency, input and
 output for every step. This is what the frontend's live "Agent Trace" panel renders,
 and what makes Naghami auditable rather than a black box.
 """
@@ -68,7 +68,7 @@ class Trace:
         start = time.perf_counter()
         try:
             yield st
-        except Exception as exc:  # noqa: BLE001 — record then re-raise
+        except Exception as exc:  # noqa: BLE001, record then re-raise
             st.status = "error"
             st.error = str(exc)
             st.latency_ms = int((time.perf_counter() - start) * 1000)

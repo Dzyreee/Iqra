@@ -25,7 +25,7 @@ def main():
         except Exception:
             print(r.text[:500])
 
-        # Invalid-model probes — the 422 enum reveals valid ids per endpoint.
+        # Invalid-model probes, the 422 enum reveals valid ids per endpoint.
         probes = {
             "chat/completions": {"model": "__x__", "messages": [{"role": "user", "content": "hi"}]},
             "images/generations": {"model": "__x__", "prompt": "x"},

@@ -45,7 +45,7 @@ async def assess_endpoint(
     """Assess a reading attempt.
 
     Send multipart form-data with `target_text` plus EITHER an `audio` file (the child's
-    recording — Aura STT transcribes it) OR a `transcript` string (offline/testing).
+    recording, Aura STT transcribes it) OR a `transcript` string (offline/testing).
     If `child_id` is given, the session is recorded to that child's profile for progress
     tracking. Returns transcript, deterministic error map, the Fanar diagnosis, the trace,
     and (when recorded) `recorded: true`.
@@ -127,7 +127,7 @@ def speak_endpoint(req: SpeakRequest):
 @app.post("/pick-illustration")
 def pick_illustration_endpoint(req: PickRequest):
     """Fanar picks the most relevant pre-generated illustration for `text` from the given
-    `candidates` (each {id, description}). Fast text call — no image generation. Returns the
+    `candidates` (each {id, description}). Fast text call, no image generation. Returns the
     chosen `{id}` (falls back to the first candidate on any model error)."""
     if not req.candidates:
         raise HTTPException(status_code=400, detail="Provide candidates.")

@@ -1,8 +1,8 @@
 """Per-child memory + cross-session progress.
 
 Profiles persist locally as JSON (one file per child). Progress on each weak sound is
-computed DETERMINISTICALLY from the engine's error maps — accuracy on the target words
-that contain that sound — so "is the child improving on ص?" is a real measurement, not
+computed DETERMINISTICALLY from the engine's error maps, accuracy on the target words
+that contain that sound, so "is the child improving on ص?" is a real measurement, not
 an LLM opinion (consistent with HARD RULE 3).
 """
 from .progress import build_progress, per_sound_accuracy, per_sound_map

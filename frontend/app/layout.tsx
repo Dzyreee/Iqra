@@ -19,7 +19,7 @@ const body = Tajawal({
 });
 
 export const metadata: Metadata = {
-  title: "اقرأ · IQRA — reading companion",
+  title: "اقرأ · IQRA, reading companion",
   description:
     "Adaptive Arabic reading-support tutor for children. Listens, analyzes, generates targeted practice. Not a diagnostic tool.",
 };

@@ -11,7 +11,7 @@ OUT_AUDIO = c.OUT / "02_tts.mp3"   # Aura TTS returns MP3, not WAV (Phase 0 find
 
 
 def main() -> None:
-    print(f"[02] Aura TTS — model={AURA_TTS!r}")
+    print(f"[02] Aura TTS, model={AURA_TTS!r}")
     with httpx_client() as cl:
         # Re-verify the voice catalogue.
         r = cl.get("/audio/voices")

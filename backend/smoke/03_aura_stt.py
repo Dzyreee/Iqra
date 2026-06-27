@@ -8,9 +8,9 @@ IN_AUDIO = c.OUT / "02_tts.mp3"
 
 
 def main() -> None:
-    print("[03] Aura STT — round-trip of 02_tts.wav")
+    print("[03] Aura STT, round-trip of 02_tts.wav")
     if not IN_AUDIO.exists():
-        c.fail(f"no input audio at {IN_AUDIO} — run smoke/02_aura_tts.py first")
+        c.fail(f"no input audio at {IN_AUDIO}, run smoke/02_aura_tts.py first")
         return
     text = transcribe(IN_AUDIO)
     c.dump("03_aura_stt", {"text": text})

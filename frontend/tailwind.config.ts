@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // "Playful Sky" — one calm primary (sky) + one celebratory accent (orange).
+        // "Playful Sky", one calm primary (sky) + one celebratory accent (orange).
         // `dark` shades drive the claymorphic "pressed" bottom-edge on buttons/nodes.
         brand: {
           DEFAULT: "#1CB0F6", // primary: buttons, path, primary actions
@@ -19,7 +19,7 @@ const config: Config = {
         },
         ink: "#1A2B4C", // text
         canvas: "#F7FAFC", // background
-        // Reading feedback (icon/underline always paired — never color alone).
+        // Reading feedback (icon/underline always paired, never color alone).
         correct: "#22C55E",
         substitution: "#FB7185",
         omission: "#FF9600",

@@ -43,6 +43,6 @@ backend/eval/_out/
 # Local Claude Code skills (not shared)
 .claude/skills/
 
-# ---- Per-child profiles (runtime data) — keep only the committed demo sample ----
+# ---- Per-child profiles (runtime data), keep only the committed demo sample ----
 backend/data/profiles/*.json
 !backend/data/profiles/demo-child.json

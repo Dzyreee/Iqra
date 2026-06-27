@@ -1,6 +1,6 @@
 "use client";
 
-// Jad — the IQRA book mascot. One <img> per pose (files live in /public/jad-images).
+// Jad, the IQRA book mascot. One <img> per pose (files live in /public/jad-images).
 // Images are 120×120 with a near-white background, so they sit cleanly on the app's light
 // surfaces. `object-contain` keeps Jad crisp and never stretched/distorted.
 export type JadPose =

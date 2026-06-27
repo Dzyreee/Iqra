@@ -1,6 +1,6 @@
 // Pre-generated illustration library. Generate the PNGs ONCE with
 // backend/scripts/gen_library.py (Oryx-IG) → frontend/public/library/<id>.png. At runtime
-// Fanar picks the best-matching image for a passage/poem (a fast text call) — no live
+// Fanar picks the best-matching image for a passage/poem (a fast text call), no live
 // image generation. The Arabic `description` is what Fanar matches against.
 
 export interface LibraryImage {

@@ -1,7 +1,7 @@
 """CLI demo of the assess+diagnose pipeline, with the Agent Trace printed.
 
 Self-contained (needs VPN): it synthesizes a deliberately *misread* reading with Aura
-TTS, then runs the REAL pipeline on that audio — Aura STT -> engine -> Fanar diagnosis.
+TTS, then runs the REAL pipeline on that audio, Aura STT -> engine -> Fanar diagnosis.
 
     cd backend && .venv/bin/python -m scripts.demo_assess
     cd backend && .venv/bin/python -m scripts.demo_assess --audio path/to/child.mp3 \
@@ -44,7 +44,7 @@ def _print_summary(result: dict) -> None:
     dx = result.get("diagnosis") or {}
     print("\n────────── DIAGNOSIS (Fanar-27B) ──────────")
     for p in dx.get("patterns", []):
-        print(f"  • {p.get('label')}  [{p.get('confidence')}]  — {p.get('evidence')}")
+        print(f"  • {p.get('label')}  [{p.get('confidence')}], {p.get('evidence')}")
     print(f"  weak sounds : {dx.get('weak_sounds')}")
     print(f"  focus       : {dx.get('focus')}")
     print(f"  encourage   : {dx.get('encouragement')}")

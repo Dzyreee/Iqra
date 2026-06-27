@@ -1,7 +1,7 @@
 """One-click backend launcher for IQRA.
 
 Press ▶ Run in VS Code (or `python main.py`) to start the FastAPI server on
-http://localhost:8000 with auto-reload — no need to remember the uvicorn command.
+http://localhost:8000 with auto-reload, no need to remember the uvicorn command.
 
 Requirements (one time):
   - Select the venv interpreter in VS Code (the one at backend/.venv).

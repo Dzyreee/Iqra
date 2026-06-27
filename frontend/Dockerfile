@@ -1,4 +1,4 @@
-# Naghami frontend — Next.js (standalone output) multi-stage build.
+# Naghami frontend, Next.js (standalone output) multi-stage build.
 
 # ---- deps ----
 FROM node:20-alpine AS deps
@@ -12,7 +12,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # NEXT_PUBLIC_* is baked into the client bundle at build time. It must be the URL the
-# BROWSER (on the host) uses to reach the backend — i.e. the host-published port.
+# BROWSER (on the host) uses to reach the backend, i.e. the host-published port.
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_TELEMETRY_DISABLED=1

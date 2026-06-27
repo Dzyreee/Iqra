@@ -1,5 +1,4 @@
-"""GENERATE step: turn the plan into media —
-  - a Diwan verse loaded with the weak sounds (Diwan unavailable -> Fanar fallback),
+"""GENERATE step: turn the plan into media,   - a Diwan verse loaded with the weak sounds (Diwan unavailable -> Fanar fallback),
   - an Oryx-IG illustration,
   - Aura TTS audio modelling the hard words.
 
@@ -45,7 +44,7 @@ def generate_exercise(
     base_prompt = plan.get("verse_prompt") or (
         "اكتب أبياتاً بسيطة ومرحة لطفل صغير، أكثِر فيها من الحروف: " + " ".join(target_sounds))
     verse_prompt = (base_prompt +
-                    " — اجعلها أربعة أسطر قصيرة فقط، بكلمات سهلة جداً ومألوفة لطفلٍ عمره ٦ سنوات.")
+                    ", اجعلها أربعة أسطر قصيرة فقط، بكلمات سهلة جداً ومألوفة لطفلٍ عمره ٦ سنوات.")
     with trace.step("generate-verse", model=DIWAN,
                     input={"prompt": verse_prompt},
                     summary="Diwan unavailable → Fanar writes a short verse loaded with the weak sounds") as st:
@@ -53,7 +52,7 @@ def generate_exercise(
         st.set_output({"verse": out["verse"]},
                       summary=f"Verse: {len((out['verse'] or '').split())} words")
 
-    # 2) Illustration (Oryx-IG) — the slow/heavy one; optional.
+    # 2) Illustration (Oryx-IG), the slow/heavy one; optional.
     if include_image:
         illo_prompt = plan.get("illustration_prompt") or (
             "A cheerful simple flat-style children's illustration, soft colors, no text, no letters.")
@@ -65,7 +64,7 @@ def generate_exercise(
             st.set_output({"bytes": len(png), "mime": "image/png"},
                           summary=f"Illustration: {len(png)} byte PNG")
 
-    # 3) Pronunciation audio (Aura TTS) — model each hard word.
+    # 3) Pronunciation audio (Aura TTS), model each hard word.
     if include_audio:
         words = [w for w in (plan.get("pronunciation_words") or []) if w][:MAX_PRONUNCIATION_WORDS]
         with trace.step("generate-audio", model=AURA_TTS,
@@ -78,7 +77,7 @@ def generate_exercise(
             st.set_output({"count": len(out["pronunciations"]), "words": words},
                           summary=f"{len(out['pronunciations'])} pronunciation clips")
 
-    # 4) FanarGuard — validate ALL child-facing text before it reaches a child.
+    # 4) FanarGuard, validate ALL child-facing text before it reaches a child.
     if validate:
         child_text = "\n".join(
             t for t in [out["verse"], plan.get("practice_passage"),

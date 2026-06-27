@@ -1,4 +1,4 @@
-# Naghami — Fanar Evaluation Findings
+# Naghami, Fanar Evaluation Findings
 
 _Run 2026-06-24 · 4 checks · 23.7s total._
 
@@ -6,7 +6,7 @@ _Run 2026-06-24 · 4 checks · 23.7s total._
 
 **Q:** Does Aura STT preserve a child's reading errors?
 
-**Result:** MIXED — 2 real-word miscue(s) preserved, 1 non-word (emphatic) miscue(s) normalized toward the nearest valid word
+**Result:** MIXED, 2 real-word miscue(s) preserved, 1 non-word (emphatic) miscue(s) normalized toward the nearest valid word
 
 **Recommendation for Fanar:** Offer a verbatim / disabled-LM STT mode + per-word confidence so phonetic and emphatic miscues (ص↔س, ض↔د, ط↔ت) survive for reading assessment.
 
@@ -103,7 +103,7 @@ _Run 2026-06-24 · 4 checks · 23.7s total._
       "The sentences are short and easy to understand."
     ]
   },
-  "note": "No real Diwan model on this key — verse is the Fanar chat fallback."
+  "note": "No real Diwan model on this key, verse is the Fanar chat fallback."
 }
 ```
 
@@ -115,7 +115,7 @@ _Run 2026-06-24 · 4 checks · 23.7s total._
 
 **Result:** Asked Oryx-IG for the letter ص; Oryx-IVU read it back as: "ب" → NOT legible ✗
 
-**Recommendation for Fanar:** Oryx-IG is unreliable for exact Arabic letterforms — keep it to decorative art and render all reading text in the app's font layer (we already do).
+**Recommendation for Fanar:** Oryx-IG is unreliable for exact Arabic letterforms, keep it to decorative art and render all reading text in the app's font layer (we already do).
 
 <details><summary>details</summary>
 

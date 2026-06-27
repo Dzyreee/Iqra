@@ -5,8 +5,7 @@ computes a fully deterministic error map: word-level alignment, miscue classific
 (substitution / omission / insertion / repetition / self-correction), accuracy %,
 reading speed (WPM / WCPM), and long-hesitation locations.
 
-The target text is the ground truth, so no trained model or labelled data is needed —
-every mismatch against the target is a measurable reading error.
+The target text is the ground truth, so no trained model or labelled data is needed, every mismatch against the target is a measurable reading error.
 
 Public API:
     from app.engine import analyze

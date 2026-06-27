@@ -1,4 +1,4 @@
-// Lightweight bilingual UI strings. Only the UI CHROME is translated — the Arabic
+// Lightweight bilingual UI strings. Only the UI CHROME is translated. The Arabic
 // learning content (passage, verse, weak sounds) always stays Arabic RTL.
 
 export type Lang = "ar" | "en";
@@ -11,8 +11,8 @@ const STRINGS = {
   // Header
   tagline: { ar: "رفيق القراءة الذكي للأطفال", en: "Smart reading companion for kids" },
   support_badge: {
-    ar: "أداة دعم للقراءة — ليست أداة تشخيص",
-    en: "A reading-support tool — not a diagnostic tool",
+    ar: "أداة دعم للقراءة، وليست أداة تشخيص",
+    en: "A reading-support tool, not a diagnostic tool",
   },
   status_online: { ar: "متصل", en: "Online" },
   status_demo: { ar: "وضع العرض", en: "Demo mode" },
@@ -27,22 +27,22 @@ const STRINGS = {
   mic_listening: { ar: "يستمع… اضغط للإيقاف", en: "Listening… tap to stop" },
   mic_analyzing: { ar: "جارٍ التحليل…", en: "Analyzing…" },
   mic_denied: {
-    ar: "تعذّر الوصول للميكروفون — جرّب «عرض توضيحي»",
-    en: "Microphone unavailable — try “Run demo”",
+    ar: "تعذّر الوصول للميكروفون، جرّب «عرض توضيحي»",
+    en: "Microphone unavailable. Try “Run demo”",
   },
   mic_aria_start: { ar: "ابدأ تسجيل القراءة", en: "Start recording the reading" },
   mic_aria_stop: { ar: "إيقاف التسجيل", en: "Stop recording" },
   offline_note: {
-    ar: "تعذّر الاتصال بالخادم — يُعرض مثال توضيحي.",
-    en: "Couldn’t reach the server — showing a sample.",
+    ar: "تعذّر الاتصال بالخادم، يُعرض مثال توضيحي.",
+    en: "Couldn’t reach the server. Showing a sample.",
   },
   empty_hint: {
     ar: "اضغط على الميكروفون ليقرأ الطفل النص، أو جرّب «عرض توضيحي» لرؤية الدورة كاملة.",
     en: "Tap the mic to have the child read, or try “Run demo” to see the full loop.",
   },
   footer: {
-    ar: "اقرأ أداة لدعم القراءة فقط. الأنماط المعروضة للممارسة، وليست تشخيصاً طبياً — راجِع أخصائياً إذا استمرت.",
-    en: "IQRA is a reading-support tool only. The patterns shown are for practice, not a medical diagnosis — consult a specialist if they persist.",
+    ar: "اقرأ أداة لدعم القراءة فقط. الأنماط المعروضة للممارسة، وليست تشخيصاً طبياً. راجِع أخصائياً إذا استمرت.",
+    en: "IQRA is a reading-support tool only. The patterns shown are for practice, not a medical diagnosis. Consult a specialist if they persist.",
   },
 
   // Passage legend
@@ -99,7 +99,7 @@ const STRINGS = {
   improving: { ar: "في تحسّن", en: "improving" },
   letter_label: { ar: "حرف", en: "Letter" },
 
-  // Phase 5 — multi-screen kids flow
+  // Phase 5: multi-screen kids flow
   child_name: { ar: "ليلى", en: "Layla" },
   child_age: { ar: "٧ سنوات", en: "Age 7" },
   greet: { ar: "مرحباً يا ليلى!", en: "Hi Layla!" },
@@ -129,12 +129,12 @@ const STRINGS = {
   poem_support: { ar: "استمع وكرّر لتتقن النطق", en: "Listen & repeat to master it" },
   finish_lesson: { ar: "تدرّبت! أنهِ الدرس", en: "Done practicing!" },
   judge_view: { ar: "كيف يعمل", en: "How it works" },
-  judge_sub: { ar: "مسار الوكيل الذكي — للقُضاة", en: "Live agent trace — for judges" },
+  judge_sub: { ar: "مسار الوكيل الذكي للقُضاة", en: "Live agent trace for judges" },
 
   // Level / difficulty indicator (separate from the streak)
   level_label: { ar: "المستوى", en: "Level" },
 
-  // TTS — Diwan full playback (reward) vs. per-word reading hints
+  // TTS: Diwan full playback (reward) vs. per-word reading hints
   play_verse: { ar: "استمع للقصيدة", en: "Play the verse" },
   playing: { ar: "يُشغّل…", en: "Playing…" },
   tap_hint_help: { ar: "اضغط على كلمة لسماعها", en: "Tap a word to hear it" },
@@ -148,6 +148,14 @@ const STRINGS = {
     en: "Practice words · tap to hear",
   },
   focus_label: { ar: "نتدرّب على:", en: "Working on:" },
+  greet_hi: { ar: "مرحباً يا", en: "Hi" },
+  sounds_progress_title: { ar: "تحسّن الأصوات", en: "Sound improvement" },
+  started_label: { ar: "البداية", en: "Started" },
+  now_label: { ar: "الآن", en: "Now" },
+  no_progress_yet: {
+    ar: "أكمل درساً لترى تقدّمك هنا",
+    en: "Finish a lesson to see your progress here",
+  },
 } as const;
 
 export type StringKey = keyof typeof STRINGS;

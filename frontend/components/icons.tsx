@@ -1,4 +1,4 @@
-// Small Lucide-style SVG icon set (no emojis — design-system rule).
+// Small Lucide-style SVG icon set (no emojis, design-system rule).
 import type { SVGProps } from "react";
 
 function Svg(props: SVGProps<SVGSVGElement>) {
